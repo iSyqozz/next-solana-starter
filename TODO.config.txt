@@ -1,0 +1,16 @@
+1. 
+Fill in constants in constants/index.ts
+
+2.
+Fill in .env.example and rename it to .env.local or .env
+
+3. 
+Fill in public folder with all relevant assets.
+
+4. 
+Install any other needed dependency
+
+customization,
+change the theme colors in tailwind config
+change the style of the cookies consent banner
+change the style of toastify if needed
