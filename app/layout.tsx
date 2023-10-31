@@ -39,6 +39,7 @@ export function generateMetadata(
     title: {
       default: PROJECT_BASE_TITLE,
       template: `${PROJECT_BASE_TITLE} | %s`,
+      absolute: `${PROJECT_BASE_TITLE} | Home`
     },
     description: PROJECT_DESCRIPTION,
     abstract: PROJECT_DESCRIPTION,

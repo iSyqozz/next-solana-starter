@@ -62,8 +62,6 @@ const Favicon = () => {
             console.error('Canvas or context is not supported');
         }
 
-        console.log('hi')
-
     }, [session, connected, owner])
 
 
