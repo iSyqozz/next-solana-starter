@@ -24,7 +24,7 @@ export const PROJECT_ME_LINK = '/';
 export const PROJECT_TENSOR_LINK = '/';
 export const PROJECT_SUBBER_LINK = '/';
 export const PROJECT_ATLAS_LINK = '/';
-export const PROJECT_TWITTER_HANDLE = ''
+export const PROJECT_TWITTER_HANDLE = '/'
 
 
 

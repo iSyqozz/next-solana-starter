@@ -1,8 +1,9 @@
-import { Connection, PublicKey, Transaction, sendAndConfirmRawTransaction } from "@solana/web3.js";
+import { Connection, PublicKey, Transaction, sendAndConfirmRawTransaction, sendAndConfirmTransaction } from "@solana/web3.js";
 import bs58 from "bs58";
 import nacl from "tweetnacl";
 import { getAssociatedTokenAccountPda } from "./pdas";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
+
 
 export const sleep = (ms: number) => {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -49,6 +50,37 @@ export async function hydrateTransaction(tx: Transaction, connection: Connection
   tx.recentBlockhash = recentBlockhash;
   tx.lastValidBlockHeight = lastValidBlockHeight;
   tx.feePayer = new PublicKey(feePayer);
+}
+
+export async function send_transactions(
+  Transactions: Transaction[],
+  connection:Connection
+) {
+  var staggeredTransactions: Promise<string>[] = []
+  var i = 1
+  Transactions.forEach((tx) => {
+      const prms = new Promise<string>((resolve) => {
+          setTimeout(() => {
+              sendAndConfirmTransaction(connection, tx, [],{ skipPreflight: true, commitment: 'confirmed', maxRetries: 2 })
+                  .then(async (sig) => {
+                      resolve(sig)
+                  })
+                  .catch(error => {
+                      console.log(error)
+                      resolve('failed');
+                  })
+          }, 100 * i)
+      })
+      staggeredTransactions.push(prms);
+      i += 1
+  })
+  const result = await Promise.allSettled(staggeredTransactions)
+  const values = []
+  for (var entry of result) {
+      //@ts-ignore      
+      values.push(entry.value)
+  }
+  return values
 }
 
 
@@ -124,4 +156,31 @@ export async function getLargestHolders(mint: PublicKey, connection: Connection)
 }
 
 
+export async function getHeldProjectNfts(mintList: string[], owner:PublicKey, connection:Connection):Promise<PublicKey[]>{
+  
+  const mint_set = new Set(mintList);
+  
+  const valid: PublicKey[] = [];
+  const tokenAccounts = await connection.getParsedTokenAccountsByOwner(owner, { programId:TOKEN_PROGRAM_ID });
+  
+  for (var cand in tokenAccounts.value) {
+    try{
+      const address = (tokenAccounts.value[cand].account.data.parsed['info'].mint)
+      const amount = tokenAccounts.value[cand].account.data.parsed['info'].tokenAmount['amount']
+      if (mint_set.has(address) && amount === '1') {
+          valid.push(new PublicKey(address));
+      }
+    }catch(e){
+      continue
+    }
+}
+  return valid;
+}
+
+// Function to calculate the current progress based on startTime and current time
+function getElapsedTime(startTime: number): number {
+  const currentTime = new Date().getTime();
+  const elapsedTimeMilliseconds = currentTime - startTime;
+  return elapsedTimeMilliseconds;
+}
 
