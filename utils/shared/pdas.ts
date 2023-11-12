@@ -53,3 +53,13 @@ export function getAssociatedTokenAccountPda(mint:PublicKey, owner:PublicKey):Pu
     )
     return ata
 }
+
+export function getGlobalStatePda(StakingProgram: PublicKey) {
+    const [pda, _] = PublicKey.findProgramAddressSync(
+        [
+            Buffer.from('global_state')
+        ],
+        new PublicKey(StakingProgram)
+    )
+    return pda
+}

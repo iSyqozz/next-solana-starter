@@ -13,4 +13,5 @@ Install any other needed dependency
 customization,
 change the theme colors in tailwind config
 change the style of the cookies consent banner
+change the style of the scrollbar
 change the style of toastify if needed

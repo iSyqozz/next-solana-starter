@@ -58,3 +58,88 @@ body ,html {
   scroll-behavior: smooth;
   width: 100%;
 }
+
+*::-webkit-scrollbar {
+  width: 7px;
+  /* Width of the scrollbar */
+}
+
+*::-webkit-scrollbar-track {
+  background: black
+}
+
+*::-webkit-scrollbar-thumb {
+  background: slategray;
+  border-radius: 8px;
+  /* Rounded corners for the thumb */
+  transition: all 0.2s ease-in-out;
+  /* Smooth transitions for background and transform */
+}
+/* Customize the scrollbar thumb on hover */
+*::-webkit-scrollbar-thumb:hover {
+  transform: scale(1.05);
+  /* Scale the thumb slightly on hover */
+}
+
+
+.abs-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.image-hover {
+  transform: scale(1) translate(var(--transition-x, 0), var(--transition-y, 0));
+  transition: transform 0.3s ease;
+}
+
+.image-hover:hover {
+  transform: scale(1.16) translate(var(--transition-x, 0), var(--transition-y, 0));
+}
+
+.wallet-adapter-modal-container * {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif,;
+  background: #010003 !important;
+  background-color: #010003 !important;
+  color: #d9ddcd !important;
+}
+
+
+.wallet-adapter-modal-container {
+  border-radius: 20% 20% 20% 20% !important;
+}
+
+.wallet-adapter-modal-button-close > svg{
+  border-radius: 50%;
+  opacity: 100;
+}
+
+.wallet-adapter-modal-container>div>ul>li>button:hover {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif,;
+  background: #010003 !important;
+  background-color: #010003 !important;
+  color: #d9ddcd !important;
+}
+
+.wallet-adapter-modal-container>div>ul>li>button:hover span {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif,;
+  background: #010003 !important;
+  background-color: #010003 !important;
+  color: #d9ddcd !important;
+}
+
+.wallet-adapter-modal-container>div>ul>div>li>button:hover {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif,;
+  background: #010003 !important;
+  background-color: #010003 !important;
+  color: #d9ddcd !important;
+}
+
+.wallet-adapter-modal-container>div .wallet-adapter-modal-button-close {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif,;
+  background: #010003 !important;
+  background-color: #010003 !important;
+  color: #d9ddcd !important;
+}
+

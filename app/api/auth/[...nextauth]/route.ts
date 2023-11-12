@@ -31,10 +31,9 @@ const providers = [
 
                 if (credentials?.tx) {
                     const tx = Transaction.from(Buffer.from(credentials.tx, 'base64'))
-                    console.log(tx);
 
                     for (let inx of tx.instructions) {
-                        if (!inx.programId.equals(new PublicKey(MEMO_PROGRAM_ID))) {
+                        if (inx.programId.equals(new PublicKey(MEMO_PROGRAM_ID))) {
                             if (inx.data.toString() != csrfToken) return null
                             if (!tx.verifySignatures()) return null
 

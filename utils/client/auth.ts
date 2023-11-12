@@ -14,8 +14,10 @@ export const handleSignIn = async (
     owner: string,
     walletModal: WalletModalContextState,
     usingLedger: boolean,
+    setDim:(e:boolean) => void
 ) => {
     try {
+        setDim(true);
         let authPayload: string;
 
         if (!connected) {
@@ -65,8 +67,9 @@ export const handleSignIn = async (
             redirect: false,
             signature: usingLedger ? '' : authPayload,
             tx: usingLedger ? authPayload : '',
-        });
+        }).then(()=>{setDim(false)});
     } catch (e) {
+        setDim(false)
         console.log(e);
     }
 }

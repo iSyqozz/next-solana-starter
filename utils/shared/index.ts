@@ -1,4 +1,4 @@
-import { Connection, PublicKey, Transaction, sendAndConfirmRawTransaction, sendAndConfirmTransaction } from "@solana/web3.js";
+import { ComputeBudgetProgram, Connection, PublicKey, Transaction, sendAndConfirmRawTransaction, sendAndConfirmTransaction } from "@solana/web3.js";
 import bs58 from "bs58";
 import nacl from "tweetnacl";
 import { getAssociatedTokenAccountPda } from "./pdas";
@@ -52,6 +52,28 @@ export async function hydrateTransaction(tx: Transaction, connection: Connection
   tx.feePayer = new PublicKey(feePayer);
 }
 
+export async function hydrateMultipleTransactions(Txs: Transaction[], connection: Connection, feePayer: PublicKey) {
+  const hashAndCtx = await connection.getLatestBlockhashAndContext()
+  const recentBlockhash = hashAndCtx.value.blockhash;
+  const lastValidBlockHeight = hashAndCtx.value.lastValidBlockHeight;
+  for (let tx of Txs) {
+    tx.recentBlockhash = recentBlockhash;
+    tx.lastValidBlockHeight = lastValidBlockHeight;
+    tx.feePayer = new PublicKey(feePayer);
+  }
+}
+
+export function increaseTransactionBudget(tx:Transaction, newBudget:number):Transaction{
+  const newTx = new Transaction();
+  newTx.add(
+      ComputeBudgetProgram.setComputeUnitLimit({units:newBudget})
+  )
+  newTx.add(
+      ...tx.instructions
+  )
+  return newTx
+} 
+
 export async function send_transactions(
   Transactions: Transaction[],
   connection:Connection
@@ -61,7 +83,7 @@ export async function send_transactions(
   Transactions.forEach((tx) => {
       const prms = new Promise<string>((resolve) => {
           setTimeout(() => {
-              sendAndConfirmTransaction(connection, tx, [],{ skipPreflight: true, commitment: 'confirmed', maxRetries: 2 })
+              sendAndConfirmRawTransaction(connection, tx.serialize(), { skipPreflight: true, commitment: 'confirmed', maxRetries: 2 })
                   .then(async (sig) => {
                       resolve(sig)
                   })
@@ -183,4 +205,22 @@ function getElapsedTime(startTime: number): number {
   const elapsedTimeMilliseconds = currentTime - startTime;
   return elapsedTimeMilliseconds;
 }
+
+
+//export function getProgramInstance(programId:PublicKey,idl:any, connection:Connection):Program{
+//  const program = new Program(
+//    idl,
+//    programId,
+//    new AnchorProvider(
+//      connection,
+//      new Wallet(Keypair.generate()),
+//      {
+//        skipPreflight: true,
+//        commitment: 'confirmed'
+//      }
+//    ) as Provider
+//  )
+//  return program;
+//}
+
 
