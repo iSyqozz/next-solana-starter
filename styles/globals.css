@@ -81,7 +81,6 @@ body ,html {
   /* Scale the thumb slightly on hover */
 }
 
-
 .abs-center {
   position: absolute;
   left: 50%;
@@ -142,4 +141,20 @@ body ,html {
   background-color: #010003 !important;
   color: #d9ddcd !important;
 }
+
+.toast-message{
+  background: rgba(0, 0, 0, 0.6) !important;
+  color: #d9ddcd !important;
+  font-family: 'Orbitron', sans-serif;
+  display: flex;
+  flex-direction: row;
+  justify-items: flex-start;
+  align-content: flex-start;
+  font-size: 15px !important;
+}
+
+.toast-progress{
+  background: slategrey !important;
+}
+
 

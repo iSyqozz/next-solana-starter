@@ -19,6 +19,8 @@ import {
   PROJECT_TWITTER_HANDLE,
 } from '@/constants'
 import { Viewport } from 'next'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 //for vercel deployments
 const baseUrl = process.env.NODE_ENV === 'development'
